@@ -1,6 +1,6 @@
 #include "post.h"
 #include "util.h"
-#include "rss.h"
+#include "atom.h"
 
 #include <stdlib.h>
 #include <stdio.h>
@@ -14,7 +14,7 @@ static int startswith(const char* str, const char* substr) {
 
 static void put_pair(void* i, const char* key, const char* val)
 {
-	h_rss_post* item = i;
+	h_atom_post* item = i;
 	if (h_util_streq(key, "author"))
 	{
 		item->author = realloc(item->author, strlen(val) + 1);
@@ -69,13 +69,13 @@ static void metadata_parse(h_post* post, char* data) {
 	if (data == NULL)
 		return;
 
-	h_conf_parse(data, strlen(data) + 1, post->rss_metadata, put_pair);
+	h_conf_parse(data, strlen(data) + 1, post->atom_metadata, put_pair);
 }
 
 static h_err* post_parse(h_post* post, FILE* f, int length, const char* path) {
 	//Create string to hold the file
 	// The +3 is for the 3 added NUL bytes at the end
-	// of the rss metadata, title, and html data.
+	// of the atom metadata, title, and html data.
 	char* fstr = malloc((length + 3) * sizeof(char));
 	if (fstr == NULL)
 		return h_err_create(H_ERR_ALLOC, NULL);
@@ -83,11 +83,11 @@ static h_err* post_parse(h_post* post, FILE* f, int length, const char* path) {
 	//Parse mode to keep track of the parsing
 	enum parsemode mode = PARSE_BEFORE;
 
-	// Pointer to the start of the rss metadata
-	char* rssdata = NULL;
+	// Pointer to the start of the atom metadata
+	char* atomdata = NULL;
 
 	//Scan through the file
-	// Housecat expects a comment with the rss info (optional),
+	// Housecat expects a comment with the atom info (optional),
 	// followed by a <h1> tag with the title.
 	char c;
 	char prev = 0;
@@ -109,7 +109,7 @@ static h_err* post_parse(h_post* post, FILE* f, int length, const char* path) {
 		case PARSE_COMMENT_START:
 			if (c == '-' && prev == '-')
 			{
-				rssdata = fstr + i + 1;
+				atomdata = fstr + i + 1;
 				mode = PARSE_COMMENT;
 			}
 			break;
@@ -180,7 +180,7 @@ static h_err* post_parse(h_post* post, FILE* f, int length, const char* path) {
 	strcpy(title_new, post->title);
 	post->title = title_new;
 
-	metadata_parse(post, rssdata);
+	metadata_parse(post, atomdata);
 
 	fstr[i - 1] = '\0';
 
@@ -264,10 +264,10 @@ h_post* h_post_create()
 	post->slug = NULL;
 	post->html = NULL;
 	post->path = NULL;
-	post->rss = NULL;
+	post->atom = NULL;
 
-	post->rss_metadata = h_rss_post_create();
-	if (post->rss_metadata == NULL)
+	post->atom_metadata = h_atom_post_create();
+	if (post->atom_metadata == NULL)
 	{
 		free(post);
 		return NULL;
@@ -285,7 +285,7 @@ void h_post_free(h_post* post)
 	free(post->slug);
 	free(post->html);
 	free(post->path);
-	free(post->rss);
-	h_rss_post_free(post->rss_metadata);
+	free(post->atom);
+	h_atom_post_free(post->atom_metadata);
 	free(post);
 }

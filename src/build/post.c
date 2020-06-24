@@ -1,7 +1,7 @@
 #include "../build.h"
 #include "../template.h"
 #include "../util.h"
-#include "../rss.h"
+#include "../atom.h"
 
 #include <stdlib.h>
 
@@ -12,7 +12,7 @@ static char* build_post(h_section* section, h_post* post, h_build_strs strs, h_c
 	h_template_args_append(args, "html", post->html);
 	h_template_args_append(args, "s_root", conf->root);
 	h_template_args_append(args, "url", post->path);
-	h_rss_arg(section, args, conf);
+	h_atom_arg(section, args, conf);
 	char* res = h_templateify(strs.post, args);
 	h_template_args_free(args);
 
@@ -37,7 +37,7 @@ h_err* h_build_post(
 	h_template_args_append(args, "menu", menu_str);
 	h_template_args_append(args, "page", post_str);
 	h_template_args_append(args, "s_root", conf->root);
-	h_rss_arg(section, args, conf);
+	h_atom_arg(section, args, conf);
 	char* res = h_templateify(strs.index, args);
 	h_template_args_free(args);
 

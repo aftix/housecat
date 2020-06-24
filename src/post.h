@@ -6,7 +6,7 @@
 #include <sys/stat.h>
 
 // Forward declarations
-struct h_rss_post;
+struct h_atom_post;
 
 typedef struct h_post
 {
@@ -16,8 +16,8 @@ typedef struct h_post
 	char* path;
 	int depth;
 	int isdraft;
-	char* rss;
-	struct h_rss_post* rss_metadata;
+	char* atom;
+	struct h_atom_post* atom_metadata;
 } h_post;
 
 //Initiate a post from file

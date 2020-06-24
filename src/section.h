@@ -5,7 +5,7 @@
 #include "post.h"
 
 // Forward declarations
-struct h_rss_section;
+struct h_atom_section;
 
 typedef struct h_section
 {
@@ -25,8 +25,8 @@ typedef struct h_section
 	int depth;
 
 	char* rpath;
-	struct h_rss_section* rss_metadata;
-	char* rss;
+	struct h_atom_section* atom_metadata;
+	char* atom;
 } h_section;
 
 //Initiate a section from directory

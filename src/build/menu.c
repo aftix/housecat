@@ -1,7 +1,7 @@
 #include "../build.h"
 #include "../template.h"
 #include "../util.h"
-#include "../rss.h"
+#include "../atom.h"
 
 #include <stdlib.h>
 #include <string.h>
@@ -36,7 +36,7 @@ static char* build_menu_node(
 	h_template_args_append(args, "url", root->path);
 	h_template_args_append(args, "subs", subs);
 	h_template_args_append(args, "current", iscurrent(root, current) ? "current" : "");
-	h_rss_arg(current, args, conf);
+	h_atom_arg(current, args, conf);
 	char* res = h_templateify(strs.menu_section, args);
 	h_template_args_free(args);
 
@@ -75,7 +75,7 @@ char* h_build_menu(h_section* root,
 	h_template_args* args = h_template_args_create();
 	h_template_args_append(args, "root", conf->root);
 	h_template_args_append(args, "sections", sections);
-	h_rss_arg(current, args, conf);
+	h_atom_arg(current, args, conf);
 
 	if (conf->logo)
 	{

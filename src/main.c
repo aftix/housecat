@@ -6,7 +6,7 @@
 #include "util.h"
 #include "conf.h"
 #include "strs.h"
-#include "rss.h"
+#include "atom.h"
 
 #include <stdlib.h>
 #include <stdio.h>
@@ -48,7 +48,7 @@ h_err* build(char* path)
 		return err;
 	}
 
-	err = h_rss_configure(root, NULL);
+	err = h_atom_configure(root, NULL);
 	if (err)
 	{
 		free(inpath);
@@ -232,10 +232,10 @@ h_err* build(char* path)
 		return err;
 	}
 
-	// Deal with rss
-	if (conf->rss)
+	// Deal with atom
+	if (conf->atom)
 	{
-		err = h_rss_build(root, conf, outpath);
+		err = h_atom_build(root, conf, outpath);
 		if (err)
 		{
 			free(index_str);

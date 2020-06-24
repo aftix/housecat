@@ -2,7 +2,7 @@
 #include "file.h"
 #include "template.h"
 #include "util.h"
-#include "rss.h"
+#include "atom.h"
 
 #include <stdlib.h>
 #include <stdio.h>
@@ -34,9 +34,9 @@ static h_err* build_post(
 
 	fclose(file);
 
-	if (conf->rss && !(post->isdraft && !conf->rss_drafts))
+	if (conf->atom && !(post->isdraft && !conf->atom_drafts))
 	{
-		err = h_rss_init_item(post, conf);
+		err = h_atom_init_item(post, conf);
 		if (err)
 			return err;
 	}

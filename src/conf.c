@@ -44,28 +44,28 @@ void h_conf_build(void* c, const char* key, const char* val)
 			strcpy(conf->root, val);
 		}
 	}
-	else if (h_util_streq(key, "rss"))
+	else if (h_util_streq(key, "atom"))
 	{
 		if (h_util_streq(val, "true"))
-			conf->rss = 1;
+			conf->atom = 1;
 		else
-			conf->rss = 0;
+			conf->atom = 0;
 	}
-	else if (h_util_streq(key, "rss_drafts"))
+	else if (h_util_streq(key, "atom_drafts"))
 	{
 		if (h_util_streq(val, "true"))
-			conf->rss_drafts = 1;
+			conf->atom_drafts = 1;
 		else
-			conf->rss_drafts = 0;
+			conf->atom_drafts = 0;
 	}
-	else if (h_util_streq(key, "rss_level"))
+	else if (h_util_streq(key, "atom_level"))
 	{
 		if (h_util_streq(val, "subsection"))
-			conf->rss_level = H_RSS_SUBSECTION;
+			conf->atom_level = H_atom_SUBSECTION;
 		else if (h_util_streq(val, "section"))
-			conf->rss_level = H_RSS_SECTION;
+			conf->atom_level = H_atom_SECTION;
 		else
-			conf->rss_level = H_RSS_GLOBAL;
+			conf->atom_level = H_atom_GLOBAL;
 	}
 	else if (h_util_streq(key, "url"))
 	{
@@ -169,10 +169,10 @@ h_conf* h_conf_create()
 	conf->posts_per_page = 5;
 	conf->logo = 0;
 	conf->root = NULL;
-	conf->rss = 0;
-	conf->rss_drafts = 0;
+	conf->atom = 0;
+	conf->atom_drafts = 0;
 	conf->url = NULL;
-	conf->rss_level = H_RSS_GLOBAL;
+	conf->atom_level = H_atom_GLOBAL;
 	conf->use_guid = 1;
 	conf->use_pubdate = 0;
 	conf->webmaster = NULL;

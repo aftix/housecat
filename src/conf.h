@@ -3,13 +3,13 @@
 
 #include "err.h"
 
-// rss defines are here to avoid a circular include
-// of conf.h-rss.h
-enum h_rsslevel
+// atom defines are here to avoid a circular include
+// of conf.h-atom.h
+enum h_atomlevel
 {
-	H_RSS_GLOBAL,
-	H_RSS_SECTION,
-	H_RSS_SUBSECTION
+	H_atom_GLOBAL,
+	H_atom_SECTION,
+	H_atom_SUBSECTION
 };
 
 typedef struct h_conf
@@ -19,10 +19,10 @@ typedef struct h_conf
 	int logo;
 	char* root;
 
-	int rss;
-	int rss_drafts;
+	int atom;
+	int atom_drafts;
 	char* url;
-	enum h_rsslevel rss_level;
+	enum h_atomlevel atom_level;
 	int use_guid;
 	int use_pubdate;
 	char* webmaster;

@@ -1,4 +1,4 @@
-#include "rss.h"
+#include "atom.h"
 #include "section.h"
 #include "util.h"
 
@@ -57,10 +57,10 @@ static h_err* init_from_dir(h_section* section, char* path, char* spath, int dep
 		//If entry is a file, add it to either posts or drafts
 		if (ent->d_type == DT_REG)
 		{
-			if (strcmp(ent->d_name, "rss.conf") == 0)
+			if (strcmp(ent->d_name, "atom.conf") == 0)
 			{
 				free(ent);
-				continue; // Don't read rss configu
+				continue; // Don't read atom configu
 			}
 
 			h_post* post = h_post_create();
@@ -271,13 +271,13 @@ h_section* h_section_create()
 	section->numsubs = 0;
 	section->path = NULL;
 	section->rpath = NULL;
-	section->rss_metadata = h_rss_section_create();
-	if (section->rss_metadata == NULL)
+	section->atom_metadata = h_atom_section_create();
+	if (section->atom_metadata == NULL)
 	{
 		free(section);
 		return NULL;
 	}
-	section->rss = NULL;
+	section->atom = NULL;
 	return section;
 }
 
@@ -290,8 +290,8 @@ void h_section_free(h_section* section)
 	free(section->slug);
 	free(section->path);
 	free(section->rpath);
-	free(section->rss);
-	h_rss_section_free(section->rss_metadata);
+	free(section->atom);
+	h_atom_section_free(section->atom_metadata);
 
 	for (int i=0; i < section->numposts; ++i)
 		h_post_free(section->posts[i]);
