@@ -1,2 +1,5 @@
 housecat
 example/public
+.ccls-cache*
+compile_commands.json
+.clangd*
